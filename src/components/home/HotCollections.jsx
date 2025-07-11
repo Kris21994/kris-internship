@@ -7,11 +7,17 @@ import { Link } from "react-router-dom";
 import Skeleton from "../UI/Skeleton";
 import AuthorImage from "../../images/author_thumbnail.jpg";
 import nftImage from "../../images/nftImage.jpg";
+import AOS from 'aos';
+import 'aos/dist/aos.css'; 
 
 const HotCollections = () => {
   const [collections, setCollections] = useState([]);
   const [loading, setLoading] = useState(true);
   const sliderRef = useRef(null);
+
+  useEffect(() => {
+    AOS.init();
+  }, []);
 
   useEffect(() => {
     const fetchCollections = async () => {
@@ -76,7 +82,7 @@ const HotCollections = () => {
 
   return (
     <section id="section-collections" className="no-bottom">
-      <div className="container">
+      <div className="container" data-aos="fade-up">
         <div className="row">
           <div className="col-lg-12">
             <div className="text-center">
@@ -113,7 +119,7 @@ const HotCollections = () => {
                     <div key={collection.id || index}>
                       <div className="nft_coll">
                         <div className="nft_wrap">
-                          <Link to="/item-details">
+                          <Link to={`/item-details/${collection.nftId}`}>
                             <img
                               src={collection.nftImage || nftImage}
                               className="lazy img-fluid"
@@ -122,7 +128,7 @@ const HotCollections = () => {
                           </Link>
                         </div>
                         <div className="nft_coll_pp">
-                          <Link to="/author">
+                          <Link to={`/author/${collection.authorId || collection.id}`}>
                             <img
                               className="lazy pp-coll"
                               src={collection.authorImage || AuthorImage}
@@ -159,4 +165,3 @@ const HotCollections = () => {
 };
 
 export default HotCollections;
-

@@ -2,10 +2,16 @@ import React, { useEffect, useState } from "react";
 import SubHeader from "../images/subheader.jpg";
 import ExploreItems from "../components/explore/ExploreItems";
 import axios from "axios";
+import AOS from "aos";
+import "aos/dist/aos.css";
 
 const Explore = () => {
   const [exploreData, setExploreData] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    AOS.init();
+  }, []);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -30,7 +36,7 @@ const Explore = () => {
   }, []);
 
   return (
-    <div id="wrapper">
+    <div id="wrapper" data-aos="fade-in">
       <div className="no-bottom no-top" id="content">
         <div id="top"></div>
 

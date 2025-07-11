@@ -7,12 +7,18 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Skeleton from "../UI/Skeleton";
+import AOS from "aos";
+import "aos/dist/aos.css";
 
 const NewItems = () => {
   const [newItems, setNewItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [currentTime, setCurrentTime] = useState(Date.now());
   const sliderRef = useRef(null);
+
+  useEffect(() => {
+    AOS.init();
+  }, []);
 
   useEffect(() => {
     const fetchNewItems = async () => {
@@ -53,8 +59,12 @@ const NewItems = () => {
 
     // Fixed math calculations using modulo operator
     const days = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
-    const hours = Math.floor((timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    const minutes = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
+    const hours = Math.floor(
+      (timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+    );
+    const minutes = Math.floor(
+      (timeDifference % (1000 * 60 * 60)) / (1000 * 60)
+    );
     const seconds = Math.floor((timeDifference % (1000 * 60)) / 1000);
 
     // Format display based on time remaining
@@ -113,7 +123,7 @@ const NewItems = () => {
 
   return (
     <section id="section-items" className="no-bottom">
-      <div className="container">
+      <div className="container" data-aos="fade-up">
         <div className="row">
           <div className="col-lg-12">
             <div className="text-center">
@@ -129,21 +139,45 @@ const NewItems = () => {
                     <div key={index} className="px-2">
                       <div className="nft__item">
                         <div className="author_list_pp">
-                          <Skeleton width="50px" height="50px" borderRadius="50%" />
+                          <Skeleton
+                            width="50px"
+                            height="50px"
+                            borderRadius="50%"
+                          />
                         </div>
                         <div className="de_countdown">
-                          <Skeleton width="80px" height="20px" borderRadius="4px" />
+                          <Skeleton
+                            width="80px"
+                            height="20px"
+                            borderRadius="4px"
+                          />
                         </div>
                         <div className="nft__item_wrap">
-                          <Skeleton width="100%" height="200px" borderRadius="8px" />
+                          <Skeleton
+                            width="100%"
+                            height="200px"
+                            borderRadius="8px"
+                          />
                         </div>
                         <div className="nft__item_info">
-                          <Skeleton width="80%" height="24px" borderRadius="4px" />
+                          <Skeleton
+                            width="80%"
+                            height="24px"
+                            borderRadius="4px"
+                          />
                           <div style={{ marginTop: "8px" }}>
-                            <Skeleton width="60%" height="20px" borderRadius="4px" />
+                            <Skeleton
+                              width="60%"
+                              height="20px"
+                              borderRadius="4px"
+                            />
                           </div>
                           <div style={{ marginTop: "8px" }}>
-                            <Skeleton width="40px" height="16px" borderRadius="4px" />
+                            <Skeleton
+                              width="40px"
+                              height="16px"
+                              borderRadius="4px"
+                            />
                           </div>
                         </div>
                       </div>
@@ -157,7 +191,7 @@ const NewItems = () => {
                       <div className="nft__item">
                         <div className="author_list_pp">
                           <Link
-                            to="/author"
+                            to={`/author/${item.authorId || item.id}`}
                             data-bs-toggle="tooltip"
                             data-bs-placement="top"
                             title={`Creator: ${item.authorName || "Unknown"}`}
@@ -196,7 +230,7 @@ const NewItems = () => {
                             </div>
                           </div>
 
-                          <Link to="/item-details">
+                          <Link to={`/item-details/${item.nftId}`}>
                             <img
                               src={item.nftImage || nftImage}
                               className="lazy nft__item_preview"
@@ -205,10 +239,12 @@ const NewItems = () => {
                           </Link>
                         </div>
                         <div className="nft__item_info">
-                          <Link to="/item-details">
+                          <Link to={`/item-details/${item.nftId}`}>
                             <h4>{item.title}</h4>
                           </Link>
-                          <div className="nft__item_price">{item.price} ETH</div>
+                          <div className="nft__item_price">
+                            {item.price} ETH
+                          </div>
                           <div className="nft__item_like">
                             <i className="fa fa-heart"></i>
                             <span>{item.likes}</span>
